@@ -254,7 +254,7 @@ class QueryAgent:
 
         return final_string
 
-
+"""
 if __name__ == '__main__':
     ag = QueryAgent()
 
@@ -306,3 +306,4 @@ if __name__ == '__main__':
 
     result = ag.query("What is the reduction in estimated total energy consumption from 2022 to 2023?", tables, texts)
     print(result)
+"""
