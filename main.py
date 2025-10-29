@@ -2,6 +2,7 @@ from utils import init_args
 from runnable import Runnable
 from table_extraction import UnstructuredTableExtractor
 from tqdm import tqdm
+import shutil
 import os
 import csv
 import json
@@ -43,7 +44,7 @@ if __name__ == "__main__":
             gri_code_to_page = {}
             tables_as_html = set()
 
-            for gri_code, description in islice(data.items(), 3, 8):  # dal 4 all'8 GRI
+            for gri_code, description in islice(data.items(), 2, 17):  # dal 3 all'17 GRI
                 if gri_code not in gri_code_to_page:
                     gri_code_to_page[gri_code] = []
 
@@ -133,66 +134,151 @@ if __name__ == "__main__":
 
     elif len(args["query"]) > 0:
 
-        if os.path.isdir(args["pdf"]):
-            file_names = os.listdir(args["pdf"])
-        elif os.path.isfile(args["pdf"]):
-            file_names = [args["pdf"]]
-        else:
-            raise ValueError(f"wrong file name")
+        # ricerca per settori
 
-        for file_name in file_names:
-            splitted_file_name = file_name.split(".")
-            if splitted_file_name[-1] != "pdf":
-                continue
-
-            file_path = args["pdf"]
-            base_name = os.path.basename(file_path)
-            dir_name = os.path.splitext(base_name)[0]
-            args["pdf"] = file_name
+        if args["sectors"] is not None and len(args["sectors"]) > 0:
+            print("sono nel main corretto", flush=True)
+            s = r.run(args["sectors"])
 
             question_to_page = {}
-            tables_as_html = set()
-
             question_to_page[args["query"]] = []
-            csvs = [f for f in os.listdir(os.path.join("table_dataset", dir_name)) if f.endswith(".csv")]
 
-            matched_csvs = []
+            for sector in args["sectors"]:
+                sector_dir = os.path.join("sectors", sector)
+                os.makedirs(sector_dir, exist_ok=True)
 
-            s = r.run()
+                # raggruppa per source
+                source_to_pages = {}
 
-            for doc in tqdm(s[:args["k"]]):  # keeps only the top k pages with the highest score, where k is specified in the Python command (default = 5)
-                page_str = str(doc.metadata["page"])
-                for csv_file in csvs:
-                    p = int(re.search(r"(\d+)_\d+\.csv$", csv_file).group(1))
-                    if page_str == str(p):
-                        matched_csvs.append(os.path.join(os.path.join("table_dataset", dir_name), csv_file))
-                        i = int(re.search(r"_(\d+)\.csv$", csv_file).group(1))
-                        question_to_page[args["query"]].append((p, i))
+                for doc in tqdm(s[:args["k"]]):
+                    source_path = doc.metadata.get("source", "")
+                    page_n = doc.metadata.get("page", None)
+                    if not source_path or page_n is None:
+                        continue
 
-            metadata_path = f'table_dataset/{dir_name}/verbal_questions_metadata.json'
+                    source_name = os.path.splitext(os.path.basename(source_path))[0]
+                    source_dir = os.path.join("table_dataset", source_name)
+                    dest_dir = os.path.join(sector_dir, source_name)
+                    os.makedirs(dest_dir, exist_ok=True)
 
-            # Assicura che la cartella padre esista
-            os.makedirs(os.path.dirname(metadata_path), exist_ok=True)
+                    if not os.path.exists(source_dir):
+                        continue
 
-            # Assicura che il file esista
-            if not os.path.exists(metadata_path):
-                with open(metadata_path, "w", encoding="utf-8") as f:
-                    f.write("{}")  # inizializza ad esempio con un JSON vuoto
+                    txt_src = os.path.join(source_dir, f"{page_n}.txt")
+                    if not os.path.exists(txt_src):
+                        continue
+
+                    csv_files = [f for f in os.listdir(source_dir) if re.match(fr"{page_n}_\d+\.csv$", f)]
+                    if not csv_files:
+                        continue
+
+                    # copia TXT e CSV
+                    shutil.copy(txt_src, os.path.join(dest_dir, f"{page_n}.txt"))
+                    for csv_file in csv_files:
+                        shutil.copy(os.path.join(source_dir, csv_file), os.path.join(dest_dir, csv_file))
+
+                    # aggiungi alla struttura source->pages
+                    if source_name not in source_to_pages:
+                        source_to_pages[source_name] = []
+
+                    source_to_pages[source_name].append({
+                        "page_n": page_n,
+                        "csv_files": csv_files
+                    })
+
+                # aggiorna question_to_page
+                for source_name, pages in source_to_pages.items():
+                    question_to_page[args["query"]].append({
+                        "source": source_name,
+                        "pages": pages
+                    })
+
+                # scrittura metadata
+                metadata_path = os.path.join(sector_dir, "verbal_questions_metadata.json")
+                os.makedirs(os.path.dirname(metadata_path), exist_ok=True)
+
+                if os.path.exists(metadata_path):
+                    with open(metadata_path, "r", encoding="utf-8") as f:
+                        try:
+                            existing_data = json.load(f)
+                        except json.JSONDecodeError:
+                            existing_data = {}
+                else:
                     existing_data = {}
 
+                # aggiorna con i nuovi dati
+                if args["query"] in existing_data:
+                    existing_data[args["query"]].extend(question_to_page[args["query"]])
+                else:
+                    existing_data.update(question_to_page)
+
+                with open(metadata_path, "w", encoding="utf-8") as f:
+                    json.dump(existing_data, f, indent=4)
+
+            print("✅ TXT e CSV copiati e metadata aggiornati con source e pagine.")
+
+        else:
+
+            if os.path.isdir(args["pdf"]):
+                file_names = os.listdir(args["pdf"])
+            elif os.path.isfile(args["pdf"]):
+                file_names = [args["pdf"]]
             else:
-                with open(metadata_path, 'r') as json_file:
-                    try:
-                        existing_data = json.load(json_file)
-                    except json.JSONDecodeError:
-                        existing_data = {}  # file vuoto o corrotto → inizializza dict vuoto
+                raise ValueError(f"wrong file name")
 
-            # Aggiorna con i nuovi dati
-            existing_data.update(question_to_page)  # se vuoi unione di dict
+            for file_name in file_names:
+                splitted_file_name = file_name.split(".")
+                if splitted_file_name[-1] != "pdf":
+                    continue
 
-            # Riscrivi tutto
-            with open(metadata_path, "w", encoding='utf-8') as json_file:
-                json.dump(existing_data, json_file, indent=4)
+                file_path = args["pdf"]
+                base_name = os.path.basename(file_path)
+                dir_name = os.path.splitext(base_name)[0]
+                args["pdf"] = file_name
+
+                question_to_page = {}
+                tables_as_html = set()
+
+                question_to_page[args["query"]] = []
+                csvs = [f for f in os.listdir(os.path.join("table_dataset", dir_name)) if f.endswith(".csv")]
+
+                matched_csvs = []
+
+                s = r.run()
+
+                for doc in tqdm(s[:args["k"]]):  # keeps only the top k pages with the highest score, where k is specified in the Python command (default = 5)
+                    page_str = str(doc.metadata["page"])
+                    for csv_file in csvs:
+                        p = int(re.search(r"(\d+)_\d+\.csv$", csv_file).group(1))
+                        if page_str == str(p):
+                            matched_csvs.append(os.path.join(os.path.join("table_dataset", dir_name), csv_file))
+                            i = int(re.search(r"_(\d+)\.csv$", csv_file).group(1))
+                            question_to_page[args["query"]].append((p, i))
+
+                metadata_path = f'table_dataset/{dir_name}/verbal_questions_metadata.json'
+
+                # Assicura che la cartella padre esista
+                os.makedirs(os.path.dirname(metadata_path), exist_ok=True)
+
+                # Assicura che il file esista
+                if not os.path.exists(metadata_path):
+                    with open(metadata_path, "w", encoding="utf-8") as f:
+                        f.write("{}")  # inizializza ad esempio con un JSON vuoto
+                        existing_data = {}
+
+                else:
+                    with open(metadata_path, 'r') as json_file:
+                        try:
+                            existing_data = json.load(json_file)
+                        except json.JSONDecodeError:
+                            existing_data = {}  # file vuoto o corrotto → inizializza dict vuoto
+
+                # Aggiorna con i nuovi dati
+                existing_data.update(question_to_page)  # se vuoi unione di dict
+
+                # Riscrivi tutto
+                with open(metadata_path, "w", encoding='utf-8') as json_file:
+                    json.dump(existing_data, json_file, indent=4)
 
     else:
         s = r.run()
