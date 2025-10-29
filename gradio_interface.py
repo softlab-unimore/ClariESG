@@ -178,10 +178,11 @@ def upload_and_process_files(files):
             if gri_code in metadata:
                 gri_line = f"   🔹**GRI {gri_code}**: {description}  "
                 output_lines.append(gri_line)
-                pages = []
+                seen = set()  # per evitare duplicati precisi (pagina, other_num)
                 for page, other_num in metadata[gri_code]:
-                    if page not in pages:
-                        pages.append(page)
+                    key = (page, other_num)
+                    if key not in seen:
+                        seen.add(key)
                         page += 1
                         link = f"   [pag.{page}](http://{server_host}:8080/viewer.html?file={quote(pdf_basename)}.pdf#page={page})  "
                         output_lines.append(f"     {link} -> {page - 1}_{other_num}.csv  ")
@@ -195,7 +196,7 @@ def handle_chat_with_pdf(chat_history, chat_input_data, docs_list, sectors_list,
     """
     Gestisce una domanda dell'utente con file PDF selezionati (docs_list).
     Se `select_pot_value` è attivo, utilizza QueryAgent (Program-of-Thought); altrimenti segue il flusso classico con LLM diretto. <-------DA FINIRE
-    Se l'ultente vuole invece interrogare un settore, sectors_list sarà un input della funzione  <------ DA IMPLEMENTARE!!!!!!!!!
+    Se l'ultente vuole invece interrogare un settore, sectors_list sarà un input della funzione
     """
     user_message = chat_input_data.get("text", "").strip()
 
@@ -217,65 +218,138 @@ def handle_chat_with_pdf(chat_history, chat_input_data, docs_list, sectors_list,
 
     # === CASO 1: Program of Thought attivo ===
     if select_pot_value:
-        ag = QueryAgent()
-        all_tables = {}
 
-        for file_idx, file in enumerate(docs_list):
+        # === CASO 1A: PoT + SETTORI ===
+        if settori:
+            ag = QueryAgent()
+            all_sector_tables = {}
 
-            pdf_name = os.path.join(os.path.abspath(os.getcwd()), "reports", file + ".pdf")
+            for sector in sectors_list:
+                print(f"🧩 Elaborazione settore: {sector}")
+                try:
+                    subprocess.run(
+                        [sys.executable, "main.py", "--query", user_message, "--use_ensemble", "--sectors", sector],
+                        shell=False, check=True, env=env, capture_output=True, text=True
+                    )
+                except subprocess.CalledProcessError as e:
+                    return [{"role": "assistant",
+                             "content": f"⚠️ Errore durante il PoT per settore '{sector}':\n{e.stderr}"}]
+
+                # Percorso dei metadata del settore
+                metadata_path = os.path.join("sectors", sector, "verbal_questions_metadata.json")
+                if not os.path.exists(metadata_path):
+                    return [{"role": "assistant", "content": f"⚠️ Nessun metadata trovato per settore '{sector}'"}]
+
+                with open(metadata_path, "r", encoding="utf-8") as f:
+                    metadata = json.load(f)
+
+                if user_message not in metadata:
+                    return [{"role": "assistant",
+                             "content": f"⚠️ Nessun riferimento trovato per query '{user_message}' nel settore '{sector}'"}]
+
+                refs = metadata[user_message]  # lista di dict con source e pagine
+                sector_tables = []
+
+                for source_entry in refs:
+                    src_name = source_entry.get("source")
+                    for page_entry in source_entry.get("pages", []):
+                        page = page_entry.get("page_n")
+                        csv_files = page_entry.get("csv_files", [])
+
+                        for csv_filename in csv_files:
+                            csv_path = os.path.join("table_dataset", src_name, csv_filename)
+                            if os.path.exists(csv_path):
+                                try:
+                                    df = pd.read_csv(csv_path, sep=";")
+                                    sector_tables.append(df)
+                                except Exception:
+                                    print(f"DEBUG: errore lettura CSV {csv_path}")
+
+                if len(sector_tables) > 0:
+                    all_sector_tables[sector] = sector_tables
+
+            if not all_sector_tables:
+                response = "⚠️ Nessuna tabella trovata nei settori selezionati."
+                return chat_history + [{"role": "assistant", "content": response}]
+
+            # Costruisci i testi per PoT
+            texts = []
+            for sector, tables in all_sector_tables.items():
+                text = (
+                        f"Settore: {sector}\n"
+                        "Considera i dati riportati nelle seguenti tabelle "
+                        + " e ".join([f"<Table{i + 1}>" for i in range(len(tables))])
+                        + ". Analizza i valori principali per rispondere alla domanda."
+                )
+                texts.append(text)
 
             try:
-                subprocess.run(
-                    [sys.executable, "main.py", "--pdf", pdf_name, "--query", user_message, "--use_ensemble"],
-                    shell=False, check=True, env=env, capture_output=True, text=True
-                )
-            except subprocess.CalledProcessError as e:
-                return [{"role": "assistant", "content": f"⚠️ Error during PDF processing:\n{e.stderr}"}]
+                result = ag.query(user_message, all_sector_tables, texts)
+            except Exception as e:
+                result = f"⚠️ Errore durante QueryAgent nei settori: {e}"
 
-            metadata_path = os.path.join("table_dataset", file, "verbal_questions_metadata.json")
-            if not os.path.exists(metadata_path):
-                return [{"role": "assistant", "content": f"⚠️ No metadata.json found for {file}"}]
+            return chat_history + [{"role": "assistant", "content": result}]
 
-            with open(metadata_path, "r", encoding="utf-8") as f:
-                metadata = json.load(f)
+        else:
+            ag = QueryAgent()
+            all_tables = {}
 
-            file_tables = []
-            # folder_path = os.path.join("table_dataset", file)
+            for file_idx, file in enumerate(docs_list):
 
-            refs = metadata[user_message]
+                pdf_name = os.path.join(os.path.abspath(os.getcwd()), "reports", file + ".pdf")
 
-            for page, num in refs:
+                try:
+                    subprocess.run(
+                        [sys.executable, "main.py", "--pdf", pdf_name, "--query", user_message, "--use_ensemble"],
+                        shell=False, check=True, env=env, capture_output=True, text=True
+                    )
+                except subprocess.CalledProcessError as e:
+                    return [{"role": "assistant", "content": f"⚠️ Error during PDF processing:\n{e.stderr}"}]
 
-                # Cerca i CSV della cartella
-                csv_file = os.path.join("table_dataset", file, f"{page}_{num}.csv")
-                if os.path.exists(csv_file):
-                    try:
-                        df = pd.read_csv(csv_file, sep=";")
-                        file_tables.append(df)
-                    except Exception:
-                        print(f"DEBUG: errore durante lettura CSV {csv_file}")
+                metadata_path = os.path.join("table_dataset", file, "verbal_questions_metadata.json")
+                if not os.path.exists(metadata_path):
+                    return [{"role": "assistant", "content": f"⚠️ No metadata.json found for {file}"}]
 
-            if len(file_tables) > 0:
-                all_tables[file_idx] = file_tables
+                with open(metadata_path, "r", encoding="utf-8") as f:
+                    metadata = json.load(f)
 
-        # Se non ha trovato nessuna tabella
-        if not all_tables:
-            response = "⚠️ No tables found in the selected PDFs."
-            return chat_history + [{"role": "assistant", "content": response}]
+                file_tables = []
+                # folder_path = os.path.join("table_dataset", file)
 
-        # Prepara i testi associati (uno per ciascun blocco di tabelle)
-        texts = [
-            "Per rispondere alla domanda, considera i dati riportati nelle tabelle " +
-            " e ".join([f"<Table{i + 1}>" for i in range(len(all_tables[0]))]) +
-            " e analizza i valori principali. Non tutte le tabelle hannno i valori necessari per rispondere alla domanda",
-        ]
+                refs = metadata[user_message]
 
-        try:
-            result = ag.query(user_message, all_tables, texts)
-        except Exception as e:
-            result = f"⚠️ Error during QueryAgent execution: {e}"
+                for page, num in refs:
 
-        return chat_history + [{"role": "assistant", "content": result}]
+                    # Cerca i CSV della cartella
+                    csv_file = os.path.join("table_dataset", file, f"{page}_{num}.csv")
+                    if os.path.exists(csv_file):
+                        try:
+                            df = pd.read_csv(csv_file, sep=";")
+                            file_tables.append(df)
+                        except Exception:
+                            print(f"DEBUG: errore durante lettura CSV {csv_file}")
+
+                if len(file_tables) > 0:
+                    all_tables[file_idx] = file_tables
+
+            # Se non ha trovato nessuna tabella
+            if not all_tables:
+                response = "⚠️ No tables found in the selected PDFs."
+                return chat_history + [{"role": "assistant", "content": response}]
+
+            # Prepara i testi associati (uno per ciascun blocco di tabelle)
+            texts = [
+                "Per rispondere alla domanda, considera i dati riportati nelle tabelle " +
+                " e ".join([f"<Table{i + 1}>" for i in range(len(all_tables[0]))]) +
+                " e analizza i valori principali. Non tutte le tabelle hannno i valori necessari per rispondere alla domanda",
+            ]
+
+            try:
+                result = ag.query(user_message, all_tables, texts)
+            except Exception as e:
+                result = f"⚠️ Error during QueryAgent execution: {e}"
+
+            return chat_history + [{"role": "assistant", "content": result}]
 
     # === CASO 2: flusso standard ===
     else:
@@ -286,7 +360,7 @@ def handle_chat_with_pdf(chat_history, chat_input_data, docs_list, sectors_list,
             try:
                 subprocess.run(
                     [sys.executable, "main.py", "--query", user_message, "--use_ensemble", "--sectors"] + sectors_list,
-                    shell=False, check=True, env=env, capture_output=False, text=True
+                    shell=False, check=True, env=env, capture_output=True, text=True
                 )
             except subprocess.CalledProcessError as e:
                 return [{"role": "assistant", "content": f"⚠️ Error during processing:\n{e.stderr}"}]
