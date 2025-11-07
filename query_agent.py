@@ -188,7 +188,7 @@ class QueryAgent:
 
         return new_texts
 
-    def query(self, query: str, tables: Dict[Union[int, str], List[pd.DataFrame]], texts: List[str]) -> str:
+    def query(self, query: str, tables: Dict[ str, List[pd.DataFrame]], texts: List[str]) -> str:
         """
         given a query and a list of tables, this function processes each table in this way:
         - Filtering: extraction of relevant rows and columns from each table
