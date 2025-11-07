@@ -29,13 +29,16 @@ class QueryAgent:
         text = text.replace("python", "")
         return text.strip()
 
-    def extract_result(self, text: str, pattern: str) -> str:
+    def extract_result(self, text: str, pattern: str, opposite=False) -> str:
         position = text.lower().rfind(pattern.lower())
         if position == -1:
             print(f"Cannot find pattern '{pattern}' in '{text}'. Defaulting to '{text}'...")
             return text
         else:
             position += len(pattern)
+
+        if opposite:
+            return text[:position].strip()
         return text[position:].strip()
 
     def filter_table(self, query: str, table: pd.DataFrame) -> Union[tuple[pd.DataFrame, str], tuple[int, str]]:
@@ -247,7 +250,7 @@ class QueryAgent:
                 "content": prompt,
             }
         ])
-        messages.append("\n\n# 🧠 Program of Thought\n\n"+python_text_raw)
+        messages.append("\n\n# 🧠 Program of Thought\n\n"+self.remove_markdown_syntax(self.extract_result(python_text_raw, "Final answer:", opposite=True))+"\n"+self.extract_result(python_text_raw, "Final answer:"))
         python_code = self.remove_markdown_syntax(self.extract_result(python_text_raw, "Final answer:"))
         results, error = self.execute(python_code, query, '\n\n'.join(new_texts) + "\n\n" + list_of_rules)
 
