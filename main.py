@@ -44,7 +44,7 @@ if __name__ == "__main__":
             gri_code_to_page = {}
             tables_as_html = set()
 
-            for gri_code, description in islice(data.items(), 2, 17):  # dal 3 all'17 GRI
+            for gri_code, description in islice(data.items(), 2, 17):  # from 3 to 17 (GRI)
                 if gri_code not in gri_code_to_page:
                     gri_code_to_page[gri_code] = []
 
@@ -55,18 +55,17 @@ if __name__ == "__main__":
 
                 ute = UnstructuredTableExtractor("yolox", "hi_res")
 
-                # Estrazione tabelle e testo
-                for doc in tqdm(s[:args["k"]]):  # top-k pagine
+                for doc in tqdm(s[:args["k"]]):  # top-k pages
                     tables, text_without_tables = ute.extract_table_unstructured([doc])
 
                     page_num = doc.metadata["page"]
 
-                    # ---- Salva tabelle CSV ----
+                    # Save CSV tables
                     for i, table in enumerate(tables):
                         html_table = table[0].metadata.text_as_html
                         gri_code_to_page[gri_code].append((page_num, i))
 
-                        # Converti tabella HTML in righe
+                        # Convert HTML table to rows
                         soup = BeautifulSoup(html_table, "html.parser")
                         rows = []
                         for tr in soup.find_all("tr"):
@@ -81,21 +80,19 @@ if __name__ == "__main__":
                     for elem in text_without_tables:
                         page = elem[2]
                         page_text = elem[0]
-                        # Salva il file di testo finale
                         txt_path = os.path.join(metadata_path, f"{page}.txt")
                         with open(txt_path, 'w', encoding='utf-8') as txt_file:
                             txt_file.write(page_text)
 
-            # ---- Salva metadata.json ----
             with open(os.path.join(metadata_path, "metadata.json"), 'w', encoding='utf-8') as json_file:
                 json.dump(gri_code_to_page, json_file, indent=4, ensure_ascii=False)
 
             pdf_basename = dir_name
-            # Uso openAI per scremare le tabelle trovate. Per ogni GRI-tabella_presa_dal_csv gli chiedo se è inerente
+            # I use openAI to skim through the tables found. For each GRI-table_taken_from_csv, I ask if it is relevant.
             new_metadata_path = llm.check(folder_path=os.path.join(".", "table_dataset"),  gri_code_list_path=args["load_query_from_file"], pdf_basename=pdf_basename)
 
             if not os.path.exists(new_metadata_path):
-                results.append(f"📁{pdf_basename}: {new_metadata_path} non trovato  ")
+                results.append(f"📁{pdf_basename}: {new_metadata_path} not founded  ")
                 continue
 
             x = os.path.join(".", "table_dataset", pdf_basename, "metadata.json")
@@ -104,42 +101,37 @@ if __name__ == "__main__":
 
             new_name = os.path.join(".", "table_dataset", pdf_basename, "metadata_after_llm.json")
             os.replace(new_metadata_path, new_name)
-            # Uso openAI per formattare le tabelle
+            # I use openAI to format tables
             llm.formatted(folder_path=os.path.join(".", "table_dataset"), pdf_basename=pdf_basename)
 
-            # elimino i .txt che non hanno nessuna tabella associata
-
+            # I delete .txt files that do not have any associated tables
             csvs = [f for f in os.listdir(metadata_path) if f.endswith(".csv")]
 
             removed_txt = 0
             removed_csv = 0
 
-            # Elimina i TXT che non hanno nessun CSV associato
             for filename in os.listdir(metadata_path):
                 if not filename.endswith(".txt"):
                     continue
 
-                page_name = os.path.splitext(filename)[0]  # es. "12" da "12.txt"
+                page_name = os.path.splitext(filename)[0]  # es. "12" from "12.txt"
                 txt_path = os.path.join(metadata_path, filename)
 
-                # cerca csv che iniziano con "page_name_" (es. "12_0.csv")
+                #  search for csv files beginning with ‘page_name_’ (e.g. ‘12_0.csv’)
                 has_csv = any(re.match(rf"^{page_name}_[0-15]+\.csv$", csv) for csv in csvs)
 
                 if not has_csv:
                     os.remove(txt_path)
                     removed_txt += 1
-                    print(f"Eliminato TXT senza tabella: {txt_path}")
+                    print(f"Deleted TXT without table: {txt_path}")
 
             build_summary_company.build_summary(dir_name)
 
     elif len(args["query"]) > 0:
 
-        # ricerca per settori
-
+        # search by sector
         if args["sectors"] is not None and len(args["sectors"]) > 0:
-            print("sono nel main corretto", flush=True)
             s = r.run(args["sectors"])
-
             question_to_page = {}
             question_to_page[args["query"]] = []
 
@@ -147,7 +139,7 @@ if __name__ == "__main__":
                 sector_dir = os.path.join("sectors", sector)
                 os.makedirs(sector_dir, exist_ok=True)
 
-                # raggruppa per source
+                # group by source
                 source_to_pages = {}
 
                 for doc in tqdm(s[:args["k"]]):
@@ -172,12 +164,12 @@ if __name__ == "__main__":
                     if not csv_files:
                         continue
 
-                    # copia TXT e CSV
+                    # copy TXT and CSV
                     shutil.copy(txt_src, os.path.join(dest_dir, f"{page_n}.txt"))
                     for csv_file in csv_files:
                         shutil.copy(os.path.join(source_dir, csv_file), os.path.join(dest_dir, csv_file))
 
-                    # aggiungi alla struttura source->pages
+                    # add to the structure source->pages
                     if source_name not in source_to_pages:
                         source_to_pages[source_name] = []
 
@@ -186,14 +178,13 @@ if __name__ == "__main__":
                         "csv_files": csv_files
                     })
 
-                # aggiorna question_to_page
+                # update question_to_page
                 for source_name, pages in source_to_pages.items():
                     question_to_page[args["query"]].append({
                         "source": source_name,
                         "pages": pages
                     })
 
-                # scrittura metadata
                 metadata_path = os.path.join(sector_dir, "verbal_questions_metadata.json")
                 os.makedirs(os.path.dirname(metadata_path), exist_ok=True)
 
@@ -206,7 +197,6 @@ if __name__ == "__main__":
                 else:
                     existing_data = {}
 
-                # aggiorna con i nuovi dati
                 if args["query"] in existing_data:
                     existing_data[args["query"]].extend(question_to_page[args["query"]])
                 else:
@@ -215,7 +205,7 @@ if __name__ == "__main__":
                 with open(metadata_path, "w", encoding="utf-8") as f:
                     json.dump(existing_data, f, indent=4)
 
-            print("✅ TXT e CSV copiati e metadata aggiornati con source e pagine.")
+            print("✅ TXT and CSV copied and metadata updated with source and pages.")
 
         else:
 
@@ -255,15 +245,13 @@ if __name__ == "__main__":
                             i = int(re.search(r"_(\d+)\.csv$", csv_file).group(1))
                             question_to_page[args["query"]].append((p, i))
 
-                metadata_path = f'table_dataset/{dir_name}/verbal_questions_metadata.json'
+                metadata_path = os.path.join("table_dataset", dir_name, "verbal_questions_metadata.json")
 
-                # Assicura che la cartella padre esista
                 os.makedirs(os.path.dirname(metadata_path), exist_ok=True)
 
-                # Assicura che il file esista
                 if not os.path.exists(metadata_path):
                     with open(metadata_path, "w", encoding="utf-8") as f:
-                        f.write("{}")  # inizializza ad esempio con un JSON vuoto
+                        f.write("{}")
                         existing_data = {}
 
                 else:
@@ -271,12 +259,10 @@ if __name__ == "__main__":
                         try:
                             existing_data = json.load(json_file)
                         except json.JSONDecodeError:
-                            existing_data = {}  # file vuoto o corrotto → inizializza dict vuoto
+                            existing_data = {}
 
-                # Aggiorna con i nuovi dati
-                existing_data.update(question_to_page)  # se vuoi unione di dict
+                existing_data.update(question_to_page)
 
-                # Riscrivi tutto
                 with open(metadata_path, "w", encoding='utf-8') as json_file:
                     json.dump(existing_data, json_file, indent=4)
 
