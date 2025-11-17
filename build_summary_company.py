@@ -44,38 +44,24 @@ def build_summary(company):
         csv_texts.append(f"# Page {page}, Table {num}\n")
         csv_texts.append(df.to_csv(index=False))
 
-
-    # Costruisco messaggi per OpenAI
-    tables_str = "\n\n".join(csv_texts)  # unisci tutte le tabelle trovate
+    tables_str = "\n\n".join(csv_texts)
     header = f"Company: {company}\n"
     context = f"{header}\n\n{tables_str}\n---\n"
 
-    # messaggio
     message = [
-        messages[0],  # system invariato
+        messages[0],
         {
             "role": "user",
             "content": messages[1]["content"].format(
                 context=context
-
             )
         }
     ]
 
     response = llm.ask_openai(message)
-    # Salvo la risposta in un file nella cartella della company
     output_file = os.path.join(folder, "summary.txt")
     with open(output_file, "w", encoding="utf-8") as f:
         f.write(response)
 
     return response
-
-
-if __name__ == "__main__":
-
-    base_path = "./table_dataset"
-    # Prende i nomi delle company = nomi cartelle in ./table_dataset
-    company = [name for name in os.listdir(base_path) if os.path.isdir(os.path.join(base_path, name))]
-    for c in company:
-        build_summary(c)
 
