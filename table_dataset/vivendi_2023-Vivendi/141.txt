@@ -1,0 +1,11 @@
+2
+ENVIRONMENTAL INDICATORS
+INDICATORS SUMMARY TABLES
+[TABLEPLACEHOLDER 0]
+(a) Electricity consumption from non-renewable sources includes an estimate of the electricity consumption of sites occupied by lessees who do not have access to their consumption data. To ensure comparability of data, these estimates were also made for 2022 electricity consumption (see Note on non-financial reporting methodology, Section 7.1.).
+(b) Self-consumption refers to the consumption of electricity produced directly on site from renewable sources, such as solar power.
+(c) Direct consumption of energy from hydrocarbons such as fuel oil, fuel and diesel is indicated in MWh GCV (Gross Calorific Value) and not in liters to facilitate comparison with the consumption of other forms of energy.
+(d) This indicator only concerns two group entities in 2023 (three in 2022).
+(e) Electricity consumption for the vehicle fleet relates solely to charging outside group sites; charging within group sites is reported in the electricity consumption section.
+VIVENDI — ANNUAL REPORT — UNIVERSAL REGISTRATION DOCUMENT 2023
+140

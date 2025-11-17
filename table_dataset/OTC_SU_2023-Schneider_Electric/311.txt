@@ -1,0 +1,26 @@
+Chapter 2 - Sustainable development
+2.8 Indicators
+Energy (continued)
+STRATEGIC REPORT
+[TABLEPLACEHOLDER 0]
+GRI
+@ 2023 audited indicators. UP = Unpublished.
+Due to the impact of rounding on individual elements within this disclosure table, numbers may not exactly sum to the Group total.
+(1)
+Out of scope energy consumption concerns mainly AVEVA, RIB Software and Larsen & Toubro and to a limited extent other small non-integrated entities.
+(2) For sites below size thresholds for mandatory environmental reporting, energy consumption by source is estimated by multiplying site surface (m*) with energy intensity ratios (kWh/m?) measured in larger sites. For sites located in countries with country-level renewable electricity contracts, 100% of the estimated electricity consumption of the site is counted as renewable, as such supply contracts cover all sites within a country. 2023 includes 48,100 MWh of Energy Attribute Certificates (EACs) applied to sites in the estimated energy scope.
+(3) 2005 estimated energy productivity is 12,408 € per MWh.
+(4) Renewable electricity reported here includes renewable electricity purchased through Power Purchasing Agreements (PPA) or green tariffs, and electricity covered by Energy Attributes Certificates (EAC). The 2023 EAC account for 32.8% of total measured purchased renewable electricity reported.
+Greenhouse gas (GHG)
+Universal Registration Document 2023 | www.se.com
+[TABLEPLACEHOLDER 1]
+GRI
+305-1, 305-2
+305-5
+305-4
+305-1
+305-2
+Schneider Electric
+305-3
+305-5
+310

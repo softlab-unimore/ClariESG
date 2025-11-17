@@ -1,0 +1,17 @@
+**Summary of Heidelberg Materials' Performance (2023)**
+
+1. **Renewable Energy Consumption**: The company's consumption of renewable energy has increased from 10.7% in 2021 to 12.3% in 2022, and further to 12.3% in 2023 (Page 356, Table 0, Row 1).
+
+2. **Specific Energy Consumption**: There has been a consistent reduction in specific energy consumption for cement, decreasing from 3093.0 MJ/t in 2021 to 2981.0 MJ/t in 2023, indicating improved energy efficiency (Page 356, Table 0, Row 2).
+
+3. **Clinker Production Energy Consumption**: The specific energy consumption for clinker production slightly decreased from 3880.0 MJ/t in 2022 to 3864.0 MJ/t in 2023, showing a minor improvement (Page 356, Table 0, Row 3).
+
+4. **Fuel Mix for Clinker Production**: 
+   - The use of hard coal has decreased from 41.7% in 2021 to 34.5% in 2023, indicating a shift towards less carbon-intensive fuels (Page 356, Table 0, Row 4).
+   - The proportion of biomass in the alternative fuel mix has increased from 11.2% in 2021 to 13.2% in 2023 (Page 356, Table 0, Row 10).
+
+5. **Alternative Fuel Rate**: The alternative fuel rate, including biomass, has risen from 26.4% in 2021 to 29.9% in 2023, reflecting a positive trend towards more sustainable fuel sources (Page 356, Table 0, Row 12).
+
+6. **Clinker Content in Cement**: The clinker content in cementitious material has decreased from 72.9% in 2021 to 70.2% in 2023, indicating a move towards lower clinker use in cement production (Page 356, Table 0, Row 13).
+
+Overall, Heidelberg Materials has shown improvements in energy efficiency and a shift towards more sustainable fuel sources, although the clinker content in cement remains a focus area for further reduction.

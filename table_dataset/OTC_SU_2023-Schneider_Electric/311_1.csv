@@ -1,0 +1,20 @@
+;Indicators;Units;2023;2022;2021;2020
+;Estimated coverage (% total GHG emissions);%;99%;99%;99%;99%
+;Estimated Total Scopes 1 and 2 GHG emissions (market-based);"TCO,e";202232;229177;293832;287595
+;Absolute reduction vs base year (2021);%;-31.2%;-22.0%;0.0%;NaN
+;Total Scopes 1 and 2 per euro turnover;"TCO,e/ million €";5.6;6.7;10.2;11.4
+;Direct (Scope 1) GHG emissions;"TCO,¢€";112792;119447;140718;142388
+;of which fuel oil;"TCO,e";3116;4414;4520;4451
+;of which gas;"TCO,e";38968;47271;56776;52197
+;of which coal;"TCO,e";0;0;0;0
+;of which vehicle fleet;"TCO,¢€";61492;55598;62683;73229
+;of which SF, emissions;"TCO,¢€";4054;4606;5886;7287
+;SF, leakage rate;%;0.08%;0.08%;0.10%;0.14%
+;Target SF, leakage rate;%;0.11%;0.11%;0.19%;0.25%
+;of which estimated Scope 1 GHG emissions of sites out of reporting perimeter;"TCO,e";5162;7557;10853;5224
+;Energy indirect (Scope 2) GHG emissions;"TCO,e";89440;109730;153115;145207
+;of which grid electricity (market-based);"TCO,e";39476;49674;66692;70145
+;of which renewable electricity (market-based);"TCO,e";0;703;701;694
+;of which district heating;"TCO,e";4853;8358;14714;11550
+;of which estimated Scope 2 GHG emissions of sites out of reporting perimeter (market-based);"TCO,e";42961;50995;71008;62818
+;Other relevant indirect (Scope 3) GHG emissions;"TCO,e";56777964;60788549;68737485;65770721

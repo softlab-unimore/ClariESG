@@ -1,0 +1,22 @@
+**Summary of Eni's Performance (2023)**
+
+1. **GHG Emissions:**
+   - Direct GHG emissions (Scope 1) decreased slightly from 39.39 million tonnes CO₂eq in 2022 to 38.69 million tonnes in 2023 (Page 163, Table 0, Row 2).
+   - The carbon efficiency index (Scope 1 and 2) improved marginally from 32.67 tonnes CO₂eq/thousand boe in 2022 to 31.9 in 2023 (Page 163, Table 0, Row 6).
+   - Indirect GHG emissions (Scope 2) increased from 0.79 million tonnes CO₂eq in 2022 to 0.73 in 2023 (Page 163, Table 0, Row 12).
+
+2. **Energy Production:**
+   - Electricity produced from renewable sources rose significantly from 2.836 GWh in 2022 to 4.242 GWh in 2023 (Page 163, Table 0, Row 18).
+   - Total energy consumption increased from 503.2 million GJ in 2022 to 516.2 million GJ in 2023 (Page 163, Table 0, Row 21).
+
+3. **Biofuels Production:**
+   - Sold production of biofuels decreased from 428 ktonnes in 2022 to 635 ktonnes in 2023 (Page 163, Table 0, Row 26).
+
+4. **Natural Gas Supplies:**
+   - Total supplies of Eni's consolidated subsidiaries decreased from 60.59 million GJ in 2022 to 50.05 million GJ in 2023, marking a decline of 17.4% (Page 74, Table 0, Row 11).
+
+5. **Power Generation and Trading:**
+   - Power generation fell from 21.37 TWh in 2022 to 20.66 TWh in 2023, a decrease of 3.3% (Page 96, Table 1, Row 1).
+   - Trading of electricity saw a significant decline of 30%, from 9.49 TWh in 2022 to 6.64 TWh in 2023 (Page 96, Table 1, Row 2).
+
+Overall, Eni has shown improvements in carbon efficiency and renewable energy production, but there are notable declines in total natural gas supplies, power generation, and trading activities.

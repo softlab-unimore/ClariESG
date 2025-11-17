@@ -1,0 +1,27 @@
+**Summary of AXA's Performance on GRI Indicators (2023)**
+
+1. **Energy Consumption and Mix:**
+   - Total energy consumption decreased by 10% from 2022 to 2023, reaching 223,638 MWh, a 33% reduction from the base year 2019 (Page 183, Table 0, Row 2, Cell 3).
+   - Fossil energy consumption also declined by 14% to 94,903 MWh, marking a 54% decrease from the base year (Row 4, Cell 3).
+   - The share of fossil sources in total energy consumption fell to 42%, down 5% from 2022 and 32% from 2019 (Row 5, Cell 3).
+   - Renewable energy consumption slightly decreased by 1% to 126,199 MWh, but increased by 13% compared to the base year (Row 8, Cell 3).
+   - The share of renewable sources in total energy consumption rose to 56%, a 3% increase from 2022 and a 69% increase from 2019 (Row 12, Cell 3).
+
+2. **Water Consumption:**
+   - Water consumption increased by 1% from 2022 to 2023, totaling 478,881 m³, but represents a 43% reduction from the base year (Row 21, Cell 3).
+   - Water consumption per person rose by 5% to 3.9 m³/FTE, yet remains 43% lower than in 2019 (Row 22, Cell 3).
+
+3. **Waste Management:**
+   - Total waste generated decreased by 14% to 4,350 T, showing a 39% reduction from the base year (Row 25, Cell 3).
+   - Unsorted waste dropped significantly by 29% to 1,955 T, a 58% decrease from 2019 (Row 26, Cell 3).
+   - The share of recycled waste increased to 55%, up 21% from 2022 (Row 30, Cell 3).
+
+4. **Paper Consumption:**
+   - Office paper consumption increased by 11% to 521 T from 2022, but is down 61% from the base year (Row 16, Cell 3).
+   - The share of recycled and/or sustainably managed paper for office use rose to 67%, a 4% increase from 2022 (Row 17, Cell 3).
+
+5. **Transportation:**
+   - Business travel by train and airplane increased significantly by 66% to 206,246 km from 2022, but is still down 41% from the base year (Row 14, Cell 3).
+   - Employee commuting decreased by 28% to 889,218 km, reflecting a 9% reduction from the previous year (Row 15, Cell 3).
+
+Overall, AXA has shown a commitment to reducing its environmental impact, particularly in energy consumption and waste management, while also making strides in increasing the share of renewable energy. However, certain areas, such as water consumption and paper usage, indicate a need for continued focus and improvement.

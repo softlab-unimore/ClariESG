@@ -1,0 +1,19 @@
+**Summary of Fresenius' Performance on GRI Indicators**
+
+1. **Energy Consumption Trends**:
+   - Total energy consumption decreased slightly from 3.22 million MWh in 2021 to 3.18 million MWh in 2022 (Page 191, Table 0).
+   - Energy consumption per million euros in sales improved from 163.0 in 2021 to 140.0 in 2023, indicating increased efficiency (Page 191, Table 1).
+   - Energy consumption per Full-Time Equivalent (FTE) also improved from 21.7 in 2021 to 19.6 in 2023 (Page 191, Table 1).
+
+2. **Emission Reduction Goals**:
+   - The company aims to reduce total Scope 1 and Scope 2 emissions by 50% by 2030, with a current reduction of approximately 22% from the 2020 baseline (Page 189, Table 0).
+   - Fresenius Kabi achieved its goal of reducing emissions at production sites by a single-digit percentage annually (Page 189, Table 0).
+
+3. **Energy Management Systems**:
+   - The company is working towards the introduction of ISO 50001 at all production sites, with a current coverage of 74% of manufacturing plants targeted for completion by 2026 (Page 189, Table 0).
+
+4. **Targets and Achievements**:
+   - The target to reduce energy consumption of German Helios clinics by 20% (base year: 2021) was not achieved by the 2023 deadline (Page 189, Table 0).
+   - The assessment of Scope 3 emissions is ongoing, with a completion target set for the 2024 reporting year as part of the climate neutrality goal by 2040 (Page 189, Table 0).
+
+Overall, Fresenius shows a positive trend in energy efficiency and emissions reduction efforts, although some specific targets, such as the reduction in energy consumption for Helios clinics, have not been met.

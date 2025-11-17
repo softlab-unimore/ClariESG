@@ -1,0 +1,26 @@
+### Summary of TotalEnergies' Performance (2015-2023)
+
+1. **Energy Mix Transition**:
+   - The share of petroleum products in the energy mix decreased from 65% in 2015 to 43% in 2023 (Page 381, Table 0, Row 1, Cell 6).
+   - Conversely, the share of low-carbon energies increased from 2% in 2015 to 10% in 2023, indicating a positive trend towards sustainability (Page 381, Table 0, Row 3, Cell 6).
+
+2. **Production and Capacity**:
+   - Gross renewable electricity capacity rose significantly from 0 GW in 2015 to 22 GW in 2023 (Page 381, Table 0, Row 7, Cell 6).
+   - Net production of renewable energy also increased from 2 TWh in 2015 to 33 TWh in 2023, maintaining the same level from 2022 to 2023 (Page 381, Table 0, Row 8, Cell 6).
+
+3. **Investments in Low-Carbon Technologies**:
+   - Net investments in low-carbon energies increased from 0 in 2015 to 6 in 2023 (Page 381, Table 0, Row 14, Cell 6).
+   - The company has shown a consistent commitment to investing in low-carbon technologies, with a slight increase in overall net investments from 16 in 2022 to 17 in 2023 (Page 381, Table 0, Row 13, Cell 6).
+
+4. **Electric Vehicle Infrastructure**:
+   - The number of EV charging points expanded from 0 in 2015 to 60,000 in 2023, reflecting a strong commitment to supporting electric mobility (Page 381, Table 0, Row 10, Cell 6).
+
+5. **Energy Efficiency**:
+   - The Global Energy Efficiency Indicator (GEE!) showed a slight decline from 90.8 in 2015 to 86.4 in 2023, indicating challenges in improving energy efficiency (Page 381, Table 0, Row 12, Cell 6).
+
+6. **Operational Metrics**:
+   - The number of operated sites with an auditable energy management system increased from 27 in 2021 to 34 in 2023 (Page 381, Table 0, Row 11, Cell 6).
+   - However, the number of operated sites with annual consumption over 50 ktoe decreased from 46 in 2022 to 43 in 2023 (Page 381, Table 0, Row 11, Cell 6).
+
+### Conclusion
+TotalEnergies has made significant strides in transitioning towards low-carbon energies and expanding its renewable capacity, although there are areas for improvement in energy efficiency and operational metrics. The growth in EV infrastructure and investments in low-carbon technologies are positive indicators of the company's commitment to sustainability.

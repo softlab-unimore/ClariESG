@@ -1,0 +1,22 @@
+**Summary of Vivendi's Performance (2023)**
+
+1. **Energy Consumption Trends:**
+   - **Electricity from Non-Renewable Sources:** Decreased by 42% from 57,761 MWh in 2022 to 33,520 MWh in 2023 (Page 141, Table 0, Row 1).
+   - **Electricity from Renewable Sources:** Increased by 47% from 30,521 MWh in 2022 to 44,811 MWh in 2023 (Page 141, Table 0, Row 2).
+   - **Total Electricity Consumption:** Decreased by 12% from 89,906 MWh in 2022 to 79,560 MWh in 2023 (Page 141, Table 0, Row 4).
+   - **Natural Gas Consumption:** Decreased by 12% from 4,869 MWh in 2022 to 4,269 MWh in 2023 (Page 141, Table 0, Row 5).
+
+2. **Vehicle Fleet Energy Consumption:**
+   - **Total Fuel Consumption:** Increased by 21% from 14,862 MWh in 2022 to 17,978 MWh in 2023 (Page 141, Table 0, Row 10).
+   - **Diesel Consumption:** Decreased by 18% from 17,675 MWh in 2022 to 14,415 MWh in 2023 (Page 141, Table 0, Row 11).
+   - **Electricity Consumption for Vehicle Fleet:** Increased from 58 MWh in 2022 to 140 MWh in 2023 (Page 141, Table 0, Row 13).
+
+3. **Greenhouse Gas Emissions:**
+   - **Total Scope 1 Emissions:** Increased by 8% from 11,228 tCO2eq in 2022 to 10,291 tCO2eq in 2023 (Page 142, Table 0, Row 7).
+   - **Total Scope 2 Market-Based Emissions:** Decreased by 29% from 18,299 tCO2eq in 2022 to 12,957 tCO2eq in 2023 (Page 142, Table 0, Row 10).
+   - **Total Partial Scope 3 Emissions:** Increased by 5% from 710,748 tCO2eq in 2022 to 735,018 tCO2eq in 2023 (Page 142, Table 0, Row 19).
+
+4. **Overall Energy Consumption:**
+   - **Total Energy Consumption:** Decreased by 9% from 153,000 MWh in 2022 to 139,788 MWh in 2023 (Page 141, Table 0, Row 20).
+
+This data indicates a positive trend towards increased renewable energy usage and a reduction in non-renewable energy consumption, although there are some increases in specific emissions categories that may require further attention.

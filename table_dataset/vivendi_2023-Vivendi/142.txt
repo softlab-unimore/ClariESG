@@ -1,0 +1,18 @@
+2
+ENVIRONMENTAL INDICATORS
+INDICATORS SUMMARY TABLES
+Greenhouse gas emissions
+[TABLEPLACEHOLDER 0]
+na: not applicable
+(a) The 2022 data for GHG emissions related to hydrocarbons (upstream and combustion), refrigerants, electricity (upstream and combustion), heating networks, waste, business travel and employee commuting have been recalculated to take updated emission factors from the Empreinte and IEA databases into account.
+(b) In previous publications, all energy-related GHG emissions were grouped under Scopes 1 and 2. No distinction was made between GHG emissions related to combustion and upstream energy emissions. However, according to the GHG Protocol, emissions from the upstream phase must be reported in Scope 3, and those from combustion in Scopes 1 and 2. In this publication, GHG emissions data for 2022 and 2023 are now aligned with the GHG Protocol
+(c) The 2023 calculation of GHG emissions linked to the consumption of electricity not generated from renewable sources includes an estimate of the electricity consumption of sites occupied by lessees who do not have access to their consumption data. To ensure comparability of data, such estimates were also used for the 2022 calculation (see Note on non-financial reporting methodology, Section 7.1.).
+(d) GHG emissions related to electricity consumption in 2022 have been recalculated using the location-based method, based on electricity consumption in 2022 and IEA emissions factors.
+(e) GHG emissions related to employee commuting in 2022 have been calculated on the basis of data from commuting questionnaires completed by all business segments in 2022.
+(f) GHG emissions linked to sold and leased products cover Canal+ Group's set-top boxes and satellite dishes. They are calculated on the basis of technical data for each product and on annual volumes, and cover the entire life cycle of set-top boxes and satellite dishes (production, packaging, transport, use, and end-of-life treatment of the product and its packaging).
+(g) GHG emissions related to financial investments in 2022 have been calculated on the basis of the carbon footprint published by the companies concerned for 2022 (failing which, a sectoral financial ratio is used), assumed by Vivendi on a prorata basis according to its ownership interest published in the 2022 URD. These emissions include those of the Lagardére group.
+(h) GHG emissions relating to investments in 2023 have been calculated on the basis of the carbon footprint published by the companies concerned for 2022 (failing which, a sectoral financial ratio is used), assumed by Vivendi on a prorata basis according to its ownership interest published in the 2023 URD. These emissions do not include those of the Lagardére group.
+(i) Viu International's GHG emissions are not currently available, nor can they be extrapolated using a monetary ratio. We are working with our partner to obtain these data for the next financial year. We anticipate that the impact of this data would be non-material on GHG emissions related to financial investments.
+(j) As the transaction giving Vivendi a controlling interest in the Lagardére group was finalized in the fourth quarter of 2023, its environmental data are not yet included in the group's non-financial reporting for 2023, in accordance with its reporting protocols (see Note on non-financial reporting methodology in Section 7.1.). As a result, to ensure comparability with 2023 data, this table also presents restated 2022 data excluding GHG emissions related to the financial interest in Lagardére.
+141
+ANNUAL REPORT — UNIVERSAL REGISTRATION DOCUMENT 2023 — VIVENDI

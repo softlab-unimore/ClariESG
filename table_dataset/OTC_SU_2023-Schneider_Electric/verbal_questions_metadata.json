@@ -1,0 +1,17 @@
+{
+    "What are the top 2 highest values of energy consumed in 2023 (sorted in descending order) among the following companies in MWh?": [
+        [
+            310,
+            1
+        ],
+        [
+            311,
+            0
+        ],
+        [
+            311,
+            1
+        ]
+    ],
+    "Between the two companies, which one relies more on renewable energy in 2023?": []
+}

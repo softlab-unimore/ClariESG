@@ -1,0 +1,22 @@
+### Summary of Schneider Electric's Performance (2023)
+
+#### Energy Consumption and Efficiency
+- **Estimated Coverage of Energy Consumption**: Remained stable at **95%** from 2020 to 2023 (Page 310, Table 1).
+- **ISO 50001 Certified Sites**: Decreased to **128** in 2023 from **132** in 2022, continuing a downward trend from **140** in 2021 and **150** in 2020 (Page 310, Table 1).
+- **Total Energy Consumption**: Decreased to **1,124,327 MWh** in 2023 from **1,201,276 MWh** in 2022, showing a consistent decline from **1,325,491 MWh** in 2021 (Page 310, Table 1).
+- **Energy Consumption per Turnover**: Improved to **31.3 MWh/million €** in 2023 from **35.1 MWh/million €** in 2022 (Page 310, Table 1).
+- **Total Energy Productivity**: Increased to **31,932 €/MWh** in 2023, up from **28,450 €/MWh** in 2022, indicating enhanced efficiency (Page 310, Table 1).
+- **Renewable Energy Consumption**: Increased to **707,033 MWh**, representing **62.9%** of total energy consumption, up from **57.3%** in 2022 (Page 310, Table 1).
+
+#### GHG Emissions
+- **Total Scopes 1 and 2 GHG Emissions**: Decreased to **202,232 TCO₂e** in 2023 from **229,177 TCO₂e** in 2022, marking a significant reduction of **31.2%** compared to the base year of 2021 (Page 311, Table 1).
+- **GHG Emissions per Euro Turnover**: Improved to **5.6 TCO₂e/million €** in 2023 from **6.7 TCO₂e/million €** in 2022 (Page 311, Table 1).
+- **Direct (Scope 1) GHG Emissions**: Decreased to **112,792 TCO₂e** in 2023 from **119,447 TCO₂e** in 2022 (Page 311, Table 1).
+- **Energy Indirect (Scope 2) GHG Emissions**: Decreased to **89,440 TCO₂e** in 2023 from **109,730 TCO₂e** in 2022 (Page 311, Table 1).
+
+#### Renewable Energy Generation
+- **Measured Renewable Electricity Generated on Site**: Increased to **2,960 MWh** in 2023 from **2,263 MWh** in 2022 (Page 311, Table 0).
+- **Electricity Sourced from Renewables**: Increased to **88%** in 2023 from **85%** in 2022 (Page 311, Table 0).
+
+### Conclusion
+Overall, Schneider Electric has shown improvements in energy productivity and a significant reduction in GHG emissions while increasing its reliance on renewable energy sources. However, there is a slight decline in the number of certified sites and total energy consumption, which may require attention moving forward.
