@@ -90,6 +90,9 @@ Replace `YOUR_OPENAI_KEY_HERE` with your actual OpenAI key.
 
 ## 3. Pull the Docker Image
 
+
+(DA PUBBLICARE)
+
 Open a shell and run the following command:
 ```console
 docker pull martasantacroce/clarigri:latest
