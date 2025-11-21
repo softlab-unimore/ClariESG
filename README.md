@@ -116,6 +116,13 @@ This command:
 - mounts `table_dataset/` as output  
 - exposes Gradio (7860) and PostgreSQL (5432)
 
+After the first build and creation of the container, you can start it again at any time with:
+
+```console
+docker start clarigri_container
+```
+
+
 
 ## 5. Access the Web Interface
 
