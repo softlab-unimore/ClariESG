@@ -99,7 +99,8 @@ docker pull martasantacroce/clarigri:latest
 
 From inside your ```clarigri/``` folder open a shell and digit:
 ```console
-docker run --env-file .env \
+docker run --name clarigri_container \
+  --env-file .env \
   -v ./reports:/app/reports \
   -v ./table_dataset:/app/table_dataset \
   -p 7860:7860 \
