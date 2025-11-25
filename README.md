@@ -1,13 +1,13 @@
-# ClariGRI 🌱
+# ClariESG 🌱
 
-ClariGRI is an end-to-end system designed to extract, clean, structure, and semantically query information contained in corporate sustainability reports (PDF). It integrates LLM-based language understanding, table extraction, numerical reasoning, and sector-aware contextualization through an interactive Gradio interface. The system supports ESG analysis, report comparison, automated table extraction, and RAG-based question answering.
+ClariESG is an end-to-end system designed to extract, clean, structure, and semantically query information contained in corporate sustainability reports (PDF). It integrates LLM-based language understanding, table extraction, numerical reasoning, and sector-aware contextualization through an interactive Gradio interface. The system supports ESG analysis, report comparison, automated table extraction, and RAG-based question answering.
 
 
 
 ## ✨ Main Features
 
 ### PDF Upload & Processing
-ClariGRI automatically:
+ClariESG automatically:
 - extracts the company name  
 - identifies, cleans, and standardizes GRI-related tables  
 - generates metadata  
@@ -37,20 +37,20 @@ A single Docker container includes the Python backend, the Gradio interface, Pos
 # 📦 Installation & Setup (Docker Only) 
 
 This is the only required setup method. No Git clone is necessary for normal usage.
-Before running ClariGRI, you must install **Docker Desktop** on your machine.🐋
+Before running ClariESG, you must install **Docker Desktop** on your machine.🐋
 
 Download it from:  
 https://www.docker.com/products/docker-desktop/
 
-Docker Desktop is required in order to pull, run, and manage the ClariGRI container. Once installed, make sure it is running before executing any Docker commands.
+Docker Desktop is required in order to pull, run, and manage the ClariESG container. Once installed, make sure it is running before executing any Docker commands.
 
 
 ## 1. Create a Local Folder
 
-Create a directory on your Desktop, for example: ``` clarigri/ ```
+Create a directory on your Desktop, for example: ``` clariesg/ ```
 Inside it, prepare the following structure:
 ```
-clarigri/
+clariesg/
 │
 ├── .env
 ├── reports/
@@ -63,7 +63,7 @@ It contains example sustainability reports used by the demo. You may also add yo
 
 ### table_dataset/
 Create this folder empty.  
-ClariGRI will automatically populate it as you process reports.
+ClariESG will automatically populate it as you process reports.
 
 
 ## 2. Create the `.env` File
@@ -93,21 +93,21 @@ Replace `YOUR_OPENAI_KEY_HERE` with your actual OpenAI key.
 
 Open a shell and run the following command:
 ```console
-docker pull martasantacroce/clarigri:latest
+docker pull martasantacroce/clariesg:latest
 ```
 
 ## 4. Run the Docker Container
 
-From inside your ```clarigri/``` folder open a shell and digit:
+From inside your ```clariesg/``` folder open a shell and digit:
 ```console
-docker run --name clarigri_container \
+docker run --name clariesg_container \
   --env-file .env \
   -v ./reports:/app/reports \
   -v ./table_dataset:/app/table_dataset \
   -p 7860:7860 \
   -p 5432:5432 \
   -p 8080:8080 \
-  martasantacroce/clarigri:latest
+  martasantacroce/clariesg:latest
 ```
 This command:
 
@@ -119,7 +119,7 @@ This command:
 After the first build and creation of the container, you can start it again at any time with:
 
 ```console
-docker start clarigri_container
+docker start clariesg_container
 ```
 
 
@@ -130,7 +130,7 @@ Open: [http://localhost:7860](http://localhost:7860)
 
 ## ▶️ Usage Summary
 
-1. Create a folder (`clarigri/`).  
+1. Create a folder (`clariesg/`).  
 2. Copy the entire `reports/` folder from GitHub.  
 3. Add your own PDF reports if desired.  
 4. Create an empty `table_dataset/` folder.  
