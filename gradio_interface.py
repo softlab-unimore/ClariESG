@@ -2,6 +2,7 @@ import gradio as gr
 import os
 import json
 import subprocess
+from itertools import islice
 from urllib.parse import quote
 import sys
 import llm
@@ -69,7 +70,6 @@ messages_sectors = [
 
 
 def clear_all():
-    # csv_group.visible = False
     return None
 
 
@@ -86,6 +86,23 @@ def load_companies_with_summary(companies_name, base_path=Path("./table_dataset"
         companies_data[name] = summary_text
 
     return companies_data
+
+
+def filter_companies_by_sector(selected_sectors):
+    """
+    selected_sectors: lista di settori scelti nella checkbox.
+                      Se vuota → mostra tutte le aziende.
+    """
+    # Mostra tutto se nessun settore selezionato
+    if not selected_sectors:
+        companies = gradio_actions.get_docs_from_db()
+        companies_dict = load_companies_with_summary(companies)
+        return render_cards_from_dict(companies_dict)
+
+    filtered_companies = gradio_actions.filter_company_cards(selected_sectors)
+    # Carico le summary solo delle aziende filtrate
+    companies_dict = load_companies_with_summary(filtered_companies)
+    return render_cards_from_dict(companies_dict)
 
 
 def upload_and_process_files(files):
@@ -168,7 +185,7 @@ def upload_and_process_files(files):
 
         output_lines = [f"📁**{pdf_basename_orig}** -- company name **{company_name}** \n "]
 
-        for gri_code, description in data.items:  
+        for gri_code, description in data.items():
             if gri_code in metadata:
                 gri_line = f"   🔹**GRI {gri_code}**: {description}  "
                 output_lines.append(gri_line)
@@ -520,10 +537,6 @@ def make_card_html(company_name, summary_text):
     """
 
 
-def add_cards(files):
-    return render_cards()
-
-
 def render_cards_from_dict(companies_dict):
     cards_html_content = "".join(make_card_html(name, summary) for name, summary in companies_dict.items())
     return f"""
@@ -713,10 +726,28 @@ with gr.Blocks() as chatbot_ui:
 
     chatbot.like(gradio_actions.print_like_dislike, None, None, like_user_message=False)
 
-# Company cards tab: create a gr.HTML with elem_id so CSS can target it
 with gr.Blocks() as company_cards:
-    # assign an elem_id to the HTML component so we can target it from CSS
-    cards_container = gr.HTML(elem_id="cards-zone")
+    sectors = gradio_actions.get_sectors_from_db()
+
+    with gr.Row(elem_id="cards-layout"):
+        with gr.Column(scale=1):
+            sector_selector_cards = gr.CheckboxGroup(
+                elem_id='sector_selector_cards',
+                choices=sectors,
+                label="Filter by sector",
+                interactive=True
+            )
+
+        with gr.Column(scale=3):
+            cards_container = gr.HTML(elem_id="cards-zone")
+
+    cards_container.value = render_cards()
+
+    sector_selector_cards.change(
+        fn=filter_companies_by_sector,
+        inputs=sector_selector_cards,
+        outputs=cards_container
+    )
 
 with gr.Blocks() as process_file_ui:
     gr.Markdown(
@@ -780,10 +811,6 @@ with gr.Blocks() as process_file_ui:
         fn=gradio_actions.update_sectors_list,
         inputs=[],
         outputs=sectors_list
-    ).then(
-        fn=add_cards,
-        inputs=[pdf_input],
-        outputs=[cards_container]
     )
 
     clear_button.click(
@@ -824,6 +851,3 @@ if __name__ == "__main__":
         demo.load(concurrency_limit=None, fn=gradio_actions.refresh_sectors_list, inputs=[], outputs=[sectors_list])
 
     demo.launch()
-
-
-
