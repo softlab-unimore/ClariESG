@@ -17,6 +17,7 @@ from pathlib import Path
 
 server_host = "155.185.48.176"  # se lavoro sul server unimore, sennò server_host = 'localhost'
 
+'''
 messages = [
     {"role": "system",
      "content": (
@@ -32,7 +33,7 @@ messages = [
      )},
     {"role": "user",
      "content": (
-         "Here are the name of the file (comapny name) and the relevant context like text of the page with tables:\n---\n{context}\n---\n"
+         "Here are the name of the file (company name) and the relevant context like text of the page with tables:\n---\n{context}\n---\n"
          "Now, answer the following question based strictly on the context.\n\nQuestion: {user_message}"
      )}
 ]
@@ -60,9 +61,70 @@ messages_sectors = [
         "role": "user",
         "content": (
             "Below you have the extracted context from several companies belonging to the same sector. "
-            "Each section specifies the sector, company name (source), and the related text and tables.\n\n"
+            "Each section specifies the sector, company name (source or pdf_basename), and the related text and tables.\n\n"
             "---\n{context}\n---\n\n"
             "Now, based strictly on this information, answer the following question:\n\n"
+            "Question: {user_message}"
+        )
+    }
+]
+
+'''
+messages = [
+    {
+        "role": "system",
+        "content": (
+            "You are an experienced assistant in sustainability and GRI standards. "
+            "You help users understand the data extracted from the PDFs of various companies."
+            "Instructions: "
+            "- Think step by step through the information before answering (use reasoning internally). "
+            "- Answer clearly, concisely and succinctly. "
+            "- Use only the data provided in the context (text extracted from the page + data tables for the company being analysed). "
+            "- If you cannot find the answer from the context, say so clearly. "
+            "- For every factual element you mention, provide a clickable link to the exact page of the PDF, "
+            "  using this format: "
+            "  [pag.page_number](http://{server_host}/viewer.html?file=pdf_basename.pdf#page=page_number) "
+            "  where `pdf_basename` is given inside the user context. "
+            "- Do not explain your reasoning; give only the final answer with the required links."
+        )
+    },
+    {
+        "role": "user",
+        "content": (
+            "Here are the name of the file (company name = pdf_basename) and the relevant context, "
+            "including text and tables:\n---\n{context}\n---\n\n"
+            "Now answer the following question strictly based on the context.\n\n"
+            "Question: {user_message}"
+        )
+    }
+]
+
+messages_sectors = [
+    {
+        "role": "system",
+        "content": (
+            "You are an expert assistant specialized in sustainability reporting and GRI standards. "
+            "You analyze and compare sustainability data across multiple companies in the same sector.\n\n"
+            "Instructions:\n"
+            "- Think carefully through the provided information before answering.\n"
+            "- Answer clearly, concisely, and without unnecessary explanation.\n"
+            "- Use only the information contained in the provided context.\n"
+            "- For every factual element you mention, provide a clickable link to the exact PDF page "
+            "  using the format: "
+            "  [pag.page_number](http://{server_host}:8080/viewer.html?file=pdf_basename.pdf#page=page_number) "
+            "  where `pdf_basename` is included for each company within the context.\n"
+            "- The link replaces the explicit mention of company name, page number, and table number.\n"
+            "- If the answer cannot be found in the context, say so explicitly.\n"
+            "- Do not explain your reasoning process; only provide the final answer with the required links."
+        )
+    },
+    {
+        "role": "user",
+        "content": (
+            "Below you have the extracted context from several companies in the same sector. "
+            "Each section includes: sector, company name (pdf_basename), and the extracted text/tables.\n\n"
+            "---\n{context}\n---\n\n"
+            "Now, strictly based on the provided information, answer the following question:\n\n"
             "Question: {user_message}"
         )
     }
@@ -501,25 +563,13 @@ def handle_chat_with_pdf(chat_history, chat_input_data, docs_list, sectors_list,
 
         if sectors:
             message = [
-                messages_sectors[0],  # system
-                {
-                    "role": "user",
-                    "content": messages[1]["content"].format(
-                        context=context,
-                        user_message=user_message
-                    ),
-                },
+                {"role": "system", "content": messages_sectors[0]["content"].format(server_host=server_host)},  # system
+                {"role": "user", "content": messages[1]["content"].format(context=context,user_message=user_message), },
             ]
         else:
             message = [
-                messages[0],  # system
-                {
-                    "role": "user",
-                    "content": messages[1]["content"].format(
-                        context=context,
-                        user_message=user_message
-                    ),
-                },
+                {"role": "system", "content": messages[0]["content"].format(server_host=server_host)},  # system
+                {"role": "user", "content": messages[1]["content"].format(context=context, user_message=user_message), },
             ]
         response = llm.ask_openai(message)
         return chat_history + [{"role": "assistant", "content": response}]
@@ -851,3 +901,4 @@ if __name__ == "__main__":
         demo.load(concurrency_limit=None, fn=gradio_actions.refresh_sectors_list, inputs=[], outputs=[sectors_list])
 
     demo.launch()
+
