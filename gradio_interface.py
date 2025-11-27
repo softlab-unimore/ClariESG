@@ -861,6 +861,10 @@ with gr.Blocks() as process_file_ui:
         fn=gradio_actions.update_sectors_list,
         inputs=[],
         outputs=sectors_list
+    ).then(
+        fn=render_cards,
+        inputs=[],
+        outputs=[cards_container]
     )
 
     clear_button.click(
@@ -901,4 +905,5 @@ if __name__ == "__main__":
         demo.load(concurrency_limit=None, fn=gradio_actions.refresh_sectors_list, inputs=[], outputs=[sectors_list])
 
     demo.launch()
+
 
