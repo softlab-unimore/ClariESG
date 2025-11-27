@@ -62,7 +62,7 @@ Copy the entire `reports/` folder from the GitHub repository into your local dir
 It contains example sustainability reports used by the demo. You may also add your own PDF reports inside this folder.
 
 ### table_dataset/
-Create this folder empty.  
+Create this empty folder.  
 ClariESG will automatically populate it as you process reports.
 
 
