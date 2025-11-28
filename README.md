@@ -91,6 +91,8 @@ Replace `YOUR_OPENAI_KEY_HERE` with your actual OpenAI key. You can create one h
 
 ## 3. Pull the Docker Image
 
+⚠️ System Requirement: AMD64 Architecture
+
 Open a shell and run the following command:
 ```console
 docker pull --platform linux/amd64 martasantacroce/clariesg:latest
